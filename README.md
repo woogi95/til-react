@@ -1,97 +1,138 @@
 # React 컴포넌트 만들기
 
-## 1. 컴포넌트 란?
+- html 즉 jsx 작성하기
 
-- 웹 페이지의 `각 요소 중` 재활용이 되는 내용을 별도의 `jsx` 로 생성한 것
-- 예) Header.jsx, Footer.jsx 등
+## 컴포넌트에 css 추가하기
 
-## 2. component 와 page 를 구분해 본다.
+- 파일이 있는 곳에 css도 같이 두기를 권장함. -`css 규칙은 권장하기로 컴포넌트명과 동일한 css 판정`
 
-- 수업 중에 `page` 라고 얘기하면 `component` 들을 모아서 하나의 페이지를 구성한다는 의미.
-- `폴더는 무조건 소문자` - Window 에서는 대소문자 구분안함.
-- 추후에 `pages` 폴더를 생성해야 함. (`폴더는 무조건 소문자`)
-- 추후에 `components` 폴더를 생성해야 함.
+## 2. css 추가 및 적용 하는 법
 
-## 3. 컴포넌트의 이해
+### 2.1. css 라이브러리 활용
 
-### 3.1. html 을 React 에서는 `jsx` 라고 호칭함.
+- `index.html` 에 `link` 권장함.
 
-- `js 로 html 을 생성하는 역할`
-- 함수명이 대문자로 시작한 파스칼 케이스
-- JSX 를 출력하는 함수는 파스칼 케이스를 써야한다는 규칙이 있음.
-- JSX 를 출력하는 함수는 반드시 `return` () 구문이 있어야 한다는 규칙이 있음.
-- `()` 안쪽에 HTML 형식을 작성한다.
-- JSX 는 `html 태그 형식`으로 호출(call)함
-- JSX 는 반드시 `Root` 태그가 존재해야 한다.
-- 용도가 묶음을 만드는 것 외에 없는 Root 라면 `<></>` Fragment 로 묶어준다.
+- `reset.css`
+  : https://meyerweb.com/eric/tools/css/reset/
+  : 나중에 `npm install` 활용
 
-```js
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
+- `normalize.css`
+  : https://necolas.github.io/normalize.css/
+  : 나중에 `npm install` 활용
 
-function IndexPage() {
-  return (
-    <>
-      <header>상단</header>
-      <main>메인</main>
-      <footer>하단</footer>
-    </>
-  );
+- `폰트어썸`
+  : https://cdnjs.com/libraries/font-awesome
+  : 아이콘 글꼴 - 나중에 `npm install` 활용
+
+- `구글 글꼴`
+  : https://fonts.google.com
+  : 나중에 `index.css 에 작성` 가능
+
+```html
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React 학습</title>
+    <!-- reset.css -->
+    <link
+      rel="stylesheet"
+      href="https://meyerweb.com/eric/tools/css/reset/reset.css"
+    />
+    <!-- normalize -->
+    <link
+      rel="stylesheet"
+      href="https://necolas.github.io/normalize.css/8.0.1/normalize.css"
+    />
+    <!-- fontawsome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+    />
+    <!-- google 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+```
+
+### 2.1. 전체 css 에 `공통 적용`이 필요한 경우
+
+- `/src/index.css` 를 활용하시길 권장함.
+
+```css
+:root {
+  --primary-color: #000000;
+  --secondary-color: #0000ff;
+  --font-size-base: 16px;
 }
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <IndexPage></IndexPage>
-  </StrictMode>,
-);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: #000000;
+}
+ul,
+li {
+  list-style: none;
+}
+html {
+  font-size: 16px;
+}
+body {
+  font-size: var(--font-size-base);
+  color: var(--primary-color);
+}
+/* 웹서비스 개발시 권장함.(개인적으로) */
+html,
+body,
+:root {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
 ```
 
-### 3.2. 각 `화면의 기능`에 따라서 파일을 분리한다.
+### 2.2. module.css 방식
 
-- `협업`을 해야 하므로 각 기능별 단위마다 별도의 컴포넌트 파일 필요.
-- `/src/pages` 폴더에는 URL 에 주소에 맞는 페이지 배치
-- `/src/components` 폴더에는 각각의 페이지에 배치될 html 요소들 배치
+- 컴포넌트라면 분명 `협업을 할 것`이라는 가정함.
+- 협업시에 css 의 우선권 문제가 발생하여 원활한 css 가 어려움.
+- 최소 `컴포넌트명.module.css` 를 준수하기를 권장함.
+- `/src/components/footer.module.css`
 
-- /src/components/Header.jsx
-
-```jsx
-const Header = () => {
-  return (
-    <header>
-      <a href="#">로고</a>
-      <div>
-        <ul>
-          <li>
-            <a href="#">주메뉴</a>
-          </li>
-          <li>
-            <a href="#">주메뉴</a>
-          </li>
-          <li>
-            <a href="#">주메뉴</a>
-          </li>
-          <li>
-            <a href="#">주메뉴</a>
-          </li>
-        </ul>
-      </div>
-    </header>
-  );
-};
-
-export default Header;
+```css
+.layout {
+  background-color: brown;
+}
+.layout a {
+  color: #ffffff;
+}
 ```
 
-- /src/components/Footer.jsx
-
 ```jsx
+import styles from "./footer.module.css";
 const Footer = () => {
   return (
     <footer>
-      <a href="">로고</a>
-      <div>카피라이터</div>
-      <div>SNS</div>
+      <div className={styles.layout}>
+        <a href="#">로고</a>
+        <div>카피라이터</div>
+        <div>SNS</div>
+      </div>
     </footer>
   );
 };
@@ -99,40 +140,160 @@ const Footer = () => {
 export default Footer;
 ```
 
-- /src/pages/IndexPage.jsx
+### 2.3. SCSS 방식
 
-```jsx
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+- 소스 관리가 편함.
+- css 를 체계적으로 구성.
+- css 에 프로그래밍적 요소로 작성 가능(변수, mixin:함수.. )
 
-function IndexPage() {
-  return (
-    <>
-      <Header></Header>
-      <main>
-        <div>공지사항/갤러리</div>
-        <div>배너</div>
-        <div>바로가기</div>
-      </main>
-      <Footer></Footer>
-    </>
-  );
+#### 2.3.1. 환경구성
+
+- `npm i -D sass`
+- `Live Sass Compiler` 플러그인 설치
+
+#### 2.3.2. 기본 문법의 이해
+
+- `/src/scss/` 폴더 생성 권장
+- `/src/scss/test.scss` 파일 생성시 확장자 확인 필요
+
+#### 2.3.3. 중첩 문법 (Nesting)
+
+```scss
+.wrap {
+  position: relative;
+  .notice {
+    width: 500px;
+    ul {
+      li {
+        background-color: blue;
+      }
+    }
+  }
+  .slide {
+    width: 200px;
+  }
+  .banner {
+    width: 300px;
+  }
 }
-// 외부에서 활용하도록
-export default IndexPage;
 ```
 
-- /src/main.jsx
+#### 2.3.4. 변수
 
-```jsx
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import IndexPage from "./pages/IndexPage";
+```scss
+$width-screen: 1680px;
+$pc-screen: 1024px;
+$mb-screen: 760px;
+$color-bg: blue;
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <IndexPage></IndexPage>
-  </StrictMode>,
-);
+.wrap {
+  position: relative;
+  width: $width-screen;
+  .notice {
+    width: $pc-screen;
+    ul {
+      li {
+        background-color: $color-bg;
+      }
+    }
+  }
+  .slide {
+    width: $mb-screen;
+  }
+  .banner {
+    width: $mb-screen;
+  }
+}
 ```
+
+#### 2.3.5. 변수는 별도 파일로 관리하자.
+
+- `_`로 파일명을 시작하면 css 가 생성안됨.
+
+- `_val.scss`
+
+```scss
+$width-screen: 2000px;
+$pc-screen: 1024px;
+$mb-screen: 760px;
+$color-bg: yellow;
+```
+
+- 변수 사용시 `@import "파일명"` 을 사용함.
+
+```scss
+@import "val";
+
+.wrap {
+  position: relative;
+  width: $width-screen;
+  .notice {
+    width: $pc-screen;
+    ul {
+      li {
+        background-color: $color-bg;
+      }
+    }
+  }
+  .slide {
+    width: $mb-screen;
+  }
+  .banner {
+    width: $mb-screen;
+  }
+}
+```
+
+#### 2.3.6. Mixins 사용하기(함수)
+
+- 파일명을 `_`를 활용하자.(`_mixins.scss`)
+
+```scss
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin border-fn($cc) {
+  border: 5px solid $cc;
+}
+```
+
+```scss
+@import "val";
+@import "mixins";
+
+.wrap {
+  position: relative;
+  @include flex-center;
+
+  width: $width-screen;
+  .notice {
+    @include flex-center;
+    width: $pc-screen;
+    ul {
+      li {
+        @include flex-center;
+        @include border-fn("red");
+        background-color: $color-bg;
+        &:hover {
+          background-color: pink;
+        }
+      }
+    }
+  }
+  .slide {
+    @include flex-center;
+    width: $mb-screen;
+  }
+  .banner {
+    @include flex-center;
+    width: $mb-screen;
+  }
+}
+```
+
+#### 2.3.7. module.scss 만들기
+
+- `header.module.scss` 파일 생성
