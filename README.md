@@ -1,171 +1,99 @@
-# React 변수 알아보기
+# React 복습
 
-## JSX 변수 활용
-
-- `/src/components/Pop.jsx` 생성
-  : rafce (React Arrow Function Component Export)
-- 1. 컴포넌트는 html 을 배치한다.
-- 2. 컴포넌트는 css 를 배치한다.
-- 3. 컴포넌트에 js 를 활요한다.
-
-## 1.1 JSX 에 변수 출력 하는 법
-
-- 보간법 : {중괄호 표기법}
+## 1. 퍼블리싱
 
 ```jsx
-const Pop = () => {
-  const title = "팝업제목";
-  const data = "팝업내용";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+
+import "./index.css";
+
+const PublishPage = () => {
   return (
-    <div>
-      <h1>{title}</h1>
-      <p>{data}</p>
-    </div>
-  );
-};
-export default Pop;
-```
+    <>
+      <header className="header">
+        <a href="#" className="logo">
+          로고
+        </a>
+        <nav className="gnb">메뉴</nav>
+      </header>
 
-### 1.2. JSX 에 보간법을 이용한 css 출력
+      <main className="main">
+        <div className="slide">슬라이드</div>
+        <div className="content">
+          <div className="notice">공지사항</div>
+          <div className="banner">배너</div>
+          <div className="link">바로가기</div>
+        </div>
+      </main>
 
-#### 1.2.1. 인라인방식
-
-- 복잡하다.
-- style={{속성명: 속성값, 속성명: 속성값,...}}
-
-```jsx
-const Pop = () => {
-  const title = "팝업제목";
-  const data = "팝업내용";
-  return (
-    <div>
-      <h1 style={{ color: "red", fontSize: "12px" }}>{title}</h1>
-      <p>{data}</p>
-    </div>
-  );
-};
-export default Pop;
-```
-
-#### 1.2.2. 객체 리터럴 오브젝트 방식
-
-```jsx
-// 전역 코딩자리
-const Pop = () => {
-  const title = "팝업제목";
-  const data = "팝업내용";
-  //   CSS 에 역할을 하는 객체 리터널은 변수명을 파스칼로 한다.(관례)
-  const TitleStyle = { color: "red", fontSize: "12px" };
-  // 지역 코딩 자리
-  return (
-    <div>
-      <h1 style={TitleStyle}>{title}</h1>
-      <p>{data}</p>
-    </div>
+      <footer className="footer">
+        <a href="#" className="footer-logo">
+          로고
+        </a>
+        <p className="copyright">Copyright</p>
+        <div className="sns">SNS</div>
+      </footer>
+    </>
   );
 };
 
-export default Pop;
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <PublishPage></PublishPage>
+  </StrictMode>,
+);
 ```
 
-#### 1.2.3. 객체 리터럴 오브젝트 는 가능하면 .js 에 export 형식 권장
+## 2. 컴포넌트 분리
 
-- `/src/components/pop.js` (확장자 조심)
+- 기본은 `src/components` 폴더, `/src/pages` 폴더 생성을 하자.
+- 각 페이지는 무엇이 나올지 회의
+- 각 페이지에 공통으로 출력될 원본 컴포넌트는 무엇이 필요한지 회의
 
-```js
-export const TitleStyle = { color: "red", fontSize: "12px" };
-export const BodyStyle = { color: "green", fontSize: "11px" };
-```
+### 2.1. 페이지 검토 결과
 
-```jsx
-import { BodyStyle, TitleStyle } from "./pop";
+- /src/pages/IndexPage.jsx 생성
 
-// 전역 코딩자리
-const Pop = () => {
-  const title = "팝업제목";
-  const data = "팝업내용";
-  //   CSS 에 역할을 하는 객체 리터널은 변수명을 파스칼로 한다.(관례)
+### 2.2. 컴포넌트 검토결과
 
-  // 지역 코딩 자리
-  return (
-    <div>
-      <h1 style={TitleStyle}>{title}</h1>
-      <p style={BodyStyle}>{data}</p>
-    </div>
-  );
-};
+- /src/components/header/Header.jsx
+- /src/components/footer/Footer.jsx
 
-export default Pop;
-```
+### 2.3. 파일을 만들고 일단 화면에 나오고 나서 꼼꼼히 작업하세요.
 
-## 2. CSS-in-JS
+-소스 참조
 
-- Styled Component
-- Emotion (현재 유행)
+## 3. css
 
-### 2.1. Emotion 환경 구성
+- IndexPage.jsx 를 대상으로 복습
+- `/src/styles` 폴더 만들기
+- `/src/styles/pages/` 폴더 만들기
+- `/src/styles/components/` 폴더 만들기
 
-- `npm i @emotion/react @emotion/styled`
-- `vscode-styled-components` 플러그인 설치
+### 3.1. IndexPage.jsx 를 위한 css
 
-### 2.2. 장점
+- `/src/styles/pages/` 폴더에 index-page.css 만들기
 
-- 태그만 보아도 어떤 내용을 보여주는 지 알 수 있다.
-- 별도의 컴포넌트.jsx 안만들어도 된다.
-- CSS 도 함께 작성 할 수 있다.
+## 4. module.css
 
-```jsx
-import styled from "@emotion/styled";
-import { BodyStyle, TitleStyle } from "./pop-style";
+- `.module.css`
+- `/src/components/header/Header.jsx` 적용
+- `/src/styles/header/header.module.css` 만들기
 
-const Pop = () => {
-  const title = "팝업제목";
-  const data = "팝업내용";
-  const PopupTitle = styled.h1`
-    color: hotpink;
-    font-size: 20px;
-    text-align: center;
-  `;
-  const SlideDiv = styled.div`
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: green;
-  `;
-  const BannerDiv = styled.div``;
-  const NoticeDiv = styled.div``;
+## 5. scss
 
-  return (
-    <div>
-      <PopupTitle style={TitleStyle}>{title}</PopupTitle>
-      <p style={BodyStyle}>{data}</p>
+- `/src/components/footer/Footer.jsx` 적용
+- `/src/styles/components/footer/footer.module.scss` 적용
 
-      <div className="slide-div">슬라이드</div>
-      <div className="banner-div">배너</div>
-      <div className="notice-div">공지사항</div>
+## 6. object css
 
-      <SlideDiv>슬라이드</SlideDiv>
-      <BannerDiv>배너</BannerDiv>
-      <NoticeDiv>공지사항</NoticeDiv>
-    </div>
-  );
-};
-export default Pop;
-```
+### 6.1. inline Object css
 
-### 2.3. Props 전달 가능
+- `/src/components/notice/Notice.jsx`
+- 객체 리터럴
+- 적극적 사용
 
-- Emotion 에서 props 가 무엇인지 이해 후
-- JSX 에서도 그대로 이해하면 됨.
+### 6.2/ Object 변수 만들고 css 적용
 
-```js
-const BannerDiv = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: ${props => props.www || 100}px;
-  height: ${props => props.hhh || 100}px;
-  background-color: ${props => props.bg || "red"};
-```
+## 7. CSS-in-JS (emotion)

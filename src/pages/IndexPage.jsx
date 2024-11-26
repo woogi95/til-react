@@ -1,21 +1,27 @@
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import Banner from "../components/banner/Banner";
+import Footer from "../components/footer/Footer";
+import Header from "../components/header/Header";
+import Notice from "../components/notice/Notice";
+import "../styles/pages/index-page.css";
+import { LinkDiv } from "../styles/components/common/styled-common";
 
-import "./indexpage.css";
 function IndexPage() {
   return (
     <>
       <Header></Header>
-      <main>
-        <div className="layout">
-          <div>공지사항/갤러리</div>
-          <div>배너</div>
-          <div>바로가기</div>
+      <main className="main">
+        <div className="slide">슬라이드</div>
+        <div className="content">
+          <Notice></Notice>
+          <Banner></Banner>
+          <LinkDiv bc={"red"} className="link">
+            바로가기
+          </LinkDiv>
         </div>
       </main>
       <Footer></Footer>
     </>
   );
 }
-// 외부에서 활용하도록
+
 export default IndexPage;
