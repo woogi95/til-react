@@ -1,0 +1,19 @@
+{
+  "todo": [
+    {
+      "id": "1",
+      "title": "리액트공부",
+      "content": "axios 공부하자"
+    },
+    {
+      "id": "2",
+      "title": "postman공부",
+      "content": "사용법 공부하자"
+    },
+    {
+      "id": "dbee",
+      "title": "잘되시나요?",
+      "content": "테스트"
+    }
+  ]
+}
