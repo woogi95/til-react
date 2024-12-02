@@ -2,8 +2,8 @@ import Banner from "../components/banner/Banner";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
 import Notice from "../components/notice/Notice";
-import "../styles/pages/index-page.css";
 import { LinkDiv } from "../styles/components/common/styled-common";
+import "../styles/pages/index-page.css";
 
 function IndexPage() {
   return (

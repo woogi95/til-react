@@ -1,11 +1,10 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import IndexPage from "./pages/IndexPage";
 
 import "./index.css";
+import EventSample3 from "./event-sample/EventSample3";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <IndexPage></IndexPage>
-  </StrictMode>,
+  <>
+    <EventSample3 />
+  </>,
 );
